@@ -16,11 +16,18 @@ pipeline {
       steps {
         container('kaniko') {
           script {
-            sh '''
-            /kaniko/executor --dockerfile `pwd`/Dockerfile \
-                             --context `pwd` \
-                             --destination=justmeandopensource/myweb:${BUILD_NUMBER}
-            '''
+            // Assuming that you have stored the Harbor registry credentials in Jenkins
+            // Replace 'HARBOR_CREDENTIALS' with your actual credentials ID from Jenkins
+            withCredentials([usernamePassword(credentialsId: 'HARBOR_CREDENTIALS', usernameVariable: 'HARBOR_USERNAME', passwordVariable: 'HARBOR_PASSWORD')]) {
+              sh '''
+              /kaniko/executor --dockerfile `pwd`/Dockerfile \
+                               --context `pwd` \
+                               --destination=harbor.uls.uled.io/uled/myweb:${BUILD_NUMBER} \
+                               --insecure-skip-tls-verify=true \  // Use if your Harbor registry uses self-signed certificates
+                               --registry-username=$HARBOR_USERNAME \
+                               --registry-password=$HARBOR_PASSWORD
+              '''
+            }
           }
         }
       }
