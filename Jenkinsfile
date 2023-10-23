@@ -23,7 +23,7 @@ pipeline {
               /kaniko/executor --dockerfile `pwd`/Dockerfile \
                                --context `pwd` \
                                --destination=harbor.uls.uled.io/uled/myweb:${BUILD_NUMBER} \
-                               --insecure-skip-tls-verify=true \  // Use if your Harbor registry uses self-signed certificates
+                               --insecure-skip-tls-verify=true \ 
                                --registry-username=$HARBOR_USERNAME \
                                --registry-password=$HARBOR_PASSWORD
               '''
