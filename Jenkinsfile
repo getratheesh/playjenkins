@@ -22,9 +22,7 @@ pipeline {
                 sh '''
                 /kaniko/executor --dockerfile `pwd`/Dockerfile \
                                 --context `pwd` \
-                                --destination=harbor.uls.uled.io/uled/myweb:${BUILD_NUMBER} \
-                                --username=$HARBOR_USERNAME \
-                                --password=$HARBOR_PASSWORD
+                                --destination=harbor.uls.uled.io/uled/myweb:${BUILD_NUMBER} 
                 '''
             }
           }
